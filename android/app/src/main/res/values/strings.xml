@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Zikri Word Arena</string>
+    <string name="title_activity_main">Zikri Word Arena</string>
+    <string name="package_name">com.afdalzikri.wordarena</string>
+    <string name="custom_url_scheme">com.afdalzikri.wordarena</string>
+</resources>

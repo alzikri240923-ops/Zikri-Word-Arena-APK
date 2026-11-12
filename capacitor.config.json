@@ -1,0 +1,9 @@
+{
+  "appId": "com.afdalzikri.wordarena",
+  "appName": "Zikri Word Arena",
+  "webDir": "public",
+  "server": {
+    "url": "https://zikriwordarena-production-f5c1d97a.up.railway.app",
+    "cleartext": true
+  }
+}
