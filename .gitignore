@@ -1,2 +1,8 @@
 node_modules/
 .npm/
+fix*.py
+diag.py
+*.bak
+*.backup
+public/index.bak*.html
+server.bak.js
