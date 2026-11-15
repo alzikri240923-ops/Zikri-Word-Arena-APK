@@ -1,11 +1,22 @@
 [
   {
     "token": "77b1b473fbff3a48bc0eca27c24bc1ff5c66930fb8ac7ab164f285ca442e80d5",
-    "name": "Apdal",
+    "name": "apdalnidek",
     "totalPoints": 0,
     "wins": 0,
     "matches": 0,
     "bestScore": 0,
-    "updatedAt": 1794495203031
+    "usedQuestions": [],
+    "updatedAt": 1794716971390
+  },
+  {
+    "token": "a50813996aca05baf54673fd336e077db534975544290b7225ae56f0d4fa7f8d",
+    "name": "Gagah",
+    "totalPoints": 0,
+    "wins": 0,
+    "matches": 0,
+    "bestScore": 0,
+    "usedQuestions": [],
+    "updatedAt": 1794708081815
   }
 ]
