@@ -29,8 +29,8 @@
   }
   var saved=null;
   try{saved=localStorage.getItem(KEY);}catch(e){}
-  var target=saved;
-  if(target&&GAME.indexOf(target)!==-1)target="modes";
+  var wasGame=!!saved&&GAME.indexOf(saved)!==-1;
+  var target=wasGame?null:saved;
   var locked=true,t0=Date.now();
   ["pointerdown","touchstart","mousedown","keydown"].forEach(function(ev){
     window.addEventListener(ev,function(){if(locked&&Date.now()-t0>600)locked=false;},true);
@@ -38,6 +38,14 @@
   setInterval(function(){
     var age=Date.now()-t0;
     if(locked){
+      if(wasGame){
+        if(age>3500){
+          var c0=current();
+          if((c0==="home"||!c0)&&typeof window.openPage==="function"){try{window.openPage("modes");}catch(e){}}
+          locked=false;
+        }
+        return;
+      }
       if(!target||target==="home"){if(age>1500)locked=false;return;}
       if(typeof window.openPage==="function"&&current()!==target){
         try{window.openPage(target);}catch(e){}
@@ -2217,7 +2225,46 @@ html, body {
 @keyframes zwaMisiSheen{0%{left:-60%}60%,100%{left:130%}}
 @keyframes zwaMisiFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
 @keyframes zwaMisiPulse{0%,100%{box-shadow:0 0 0 0 rgba(246,217,138,.35)}50%{box-shadow:0 0 0 8px rgba(246,217,138,0)}}
-@keyframes zwaMisiBar{from{background-position:0 0}to{background-position:200% 0}}</style></head>
+@keyframes zwaMisiBar{from{background-position:0 0}to{background-position:200% 0}}</style><style id="zwa-chromecss">body[data-zwa-sub] #hero,body[data-zwa-sub] header.hero,body[data-zwa-sub] #mainNav,body[data-zwa-sub] nav.main-nav{display:none !important;}</style><script id="zwa-chromefix">(function(){
+  var ALL=["profile","modes","cwMenu","mqSetup","ranking","achievements","help","settings","shop","lobby","game","meiquizz","result"];
+  function vis(id){
+    var e=document.getElementById(id);
+    if(!e||e.classList.contains("hidden")) return false;
+    return getComputedStyle(e).display!=="none";
+  }
+  setInterval(function(){
+    var b=document.body; if(!b) return;
+    var sub=false;
+    for(var i=0;i<ALL.length;i++){ if(vis(ALL[i])){ sub=true; break; } }
+    if(sub) b.setAttribute("data-zwa-sub","1"); else b.removeAttribute("data-zwa-sub");
+  },150);
+})();</script><style id="zwa-roomfind-css">.zwa-find{margin-top:18px;padding:16px;border-radius:20px;background:linear-gradient(160deg,rgba(246,217,138,.09),rgba(255,255,255,.03));border:1px solid rgba(246,217,138,.3);box-shadow:0 12px 32px rgba(0,0,0,.3);animation:zwaFindIn .5s ease both}
+.zwa-find-head{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+.zwa-find-step{display:grid;place-items:center;width:34px;height:34px;border-radius:10px;font-weight:800;font-size:13px;color:#1a1305;background:linear-gradient(135deg,#f6d98a,#e9a93b)}
+.zwa-find-head b{display:block;letter-spacing:.08em}
+.zwa-find-head small{opacity:.7}
+.zwa-find-row{display:flex;gap:8px}
+.zwa-find-input{flex:1;min-width:0;padding:12px 14px;border-radius:12px;border:1px solid rgba(255,255,255,.15);background:rgba(0,0,0,.28);color:inherit;font-size:14px;outline:none}
+.zwa-find-input:focus{border-color:#f6d98a;box-shadow:0 0 0 3px rgba(246,217,138,.18)}
+.zwa-find-refresh{padding:0 16px;font-size:18px}
+.zwa-find-status{margin:10px 2px;font-size:12px;opacity:.75}
+.zwa-find-list{display:grid;gap:10px}
+.zwa-find-item{display:grid;grid-template-columns:1fr auto auto;align-items:center;gap:10px;padding:12px;border-radius:14px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);animation:zwaFindIn .35s ease both;transition:transform .15s ease,border-color .15s ease}
+.zwa-find-item:hover{border-color:rgba(246,217,138,.5)}
+.zwa-find-item:active{transform:scale(.99)}
+.zwa-find-code{font-family:monospace;font-size:18px;font-weight:800;letter-spacing:.22em;color:#f6d98a}
+.zwa-find-meta{font-size:12px;opacity:.75;margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.zwa-find-pill{padding:5px 10px;border-radius:999px;font-size:12px;background:rgba(246,217,138,.12);border:1px solid rgba(246,217,138,.35)}
+.zwa-find-join{padding:9px 16px}
+#lobby:not(.hidden){animation:zwaFindIn .5s ease both}
+#lobby .room-top{padding:16px;border-radius:20px;background:linear-gradient(160deg,rgba(246,217,138,.10),rgba(255,255,255,.03));border:1px solid rgba(246,217,138,.3);box-shadow:0 12px 32px rgba(0,0,0,.3)}
+#lobby .room-code{letter-spacing:.3em;font-weight:800;color:#f6d98a;text-shadow:0 0 18px rgba(246,217,138,.35)}
+#lobby .player-grid>*{border-radius:14px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);transition:transform .15s ease}
+#lobby .player-grid>*:active{transform:scale(.98)}
+#lobby .chat-box{border-radius:16px;background:rgba(0,0,0,.25);border:1px solid rgba(255,255,255,.08)}
+#lobby .chat-input{border-radius:12px}
+#lobby .tiny-pill{background:rgba(246,217,138,.12);border-color:rgba(246,217,138,.35)}
+@keyframes zwaFindIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}</style></head>
 <body>
 <div class="shell">
   <div class="topbar">
@@ -5449,5 +5496,68 @@ html, body {
     }
   }
   setInterval(tick,250);
+})();</script><script id="zwa-roomfind">(function(){
+  function mk(t,c,x){var e=document.createElement(t);if(c)e.className=c;if(x!=null)e.textContent=x;return e;}
+  function visible(){var s=document.getElementById("mqSetup");return !!s&&!s.classList.contains("hidden")&&getComputedStyle(s).display!=="none";}
+  function build(){
+    var sec=document.getElementById("mqSetup");
+    if(!sec||document.getElementById("zwaFind"))return;
+    var host=sec.querySelector(".mq-setup-content")||sec;
+    var box=mk("div","zwa-find");box.id="zwaFind";
+    var head=mk("div","zwa-find-head");
+    head.appendChild(mk("span","zwa-find-step","02"));
+    var hd=mk("div");hd.appendChild(mk("b",null,"CARI RUANG"));hd.appendChild(mk("small",null,"Gabung ke arena yang masih terbuka"));
+    head.appendChild(hd);box.appendChild(head);
+    var row=mk("div","zwa-find-row");
+    var inp=mk("input","zwa-find-input");inp.id="zwaFindInput";inp.placeholder="Ketik kode ruang atau nama host";inp.maxLength=24;inp.autocomplete="off";
+    var rf=mk("button","btn btn-secondary zwa-find-refresh","\u21bb");rf.type="button";
+    row.appendChild(inp);row.appendChild(rf);box.appendChild(row);
+    var st=mk("div","zwa-find-status","Memuat daftar ruang...");st.id="zwaFindStatus";box.appendChild(st);
+    var list=mk("div","zwa-find-list");list.id="zwaFindList";box.appendChild(list);
+    var note=host.querySelector(".mq-bottom-note");
+    if(note)host.insertBefore(box,note);else host.appendChild(box);
+    var deb=null;
+    inp.addEventListener("input",function(){clearTimeout(deb);deb=setTimeout(load,300);});
+    rf.addEventListener("click",load);
+    load();
+  }
+  function render(rooms){
+    var list=document.getElementById("zwaFindList"),st=document.getElementById("zwaFindStatus");
+    if(!list||!st)return;
+    list.textContent="";
+    if(!rooms.length){st.textContent="Belum ada ruang terbuka. Buat arena sendiri di atas!";return;}
+    st.textContent=rooms.length+" ruang terbuka";
+    rooms.forEach(function(r){
+      var it=mk("div","zwa-find-item");
+      var left=mk("div");
+      left.appendChild(mk("div","zwa-find-code",r.code));
+      left.appendChild(mk("div","zwa-find-meta","Host: "+r.host+" \u00b7 "+(r.matchType==="duel"?"Duel":"Mixed")+" \u00b7 "+r.category));
+      var pill=mk("span","zwa-find-pill","\ud83d\udc65 "+r.players+"/"+r.max);
+      var b=mk("button","btn btn-primary zwa-find-join","Gabung");b.type="button";
+      b.addEventListener("click",function(){join(r.code);});
+      it.appendChild(left);it.appendChild(pill);it.appendChild(b);list.appendChild(it);
+    });
+  }
+  function load(){
+    var st=document.getElementById("zwaFindStatus"),inp=document.getElementById("zwaFindInput");
+    if(!st)return;
+    if(typeof socket==="undefined"||!socket.emit){st.textContent="Belum terhubung ke server.";return;}
+    socket.emit("rooms:list",{q:inp?inp.value:""},function(res){
+      if(!res||!res.ok){st.textContent="Gagal memuat daftar ruang. Pastikan server sudah di-restart.";return;}
+      render(res.rooms||[]);
+    });
+  }
+  function join(code){
+    var st=document.getElementById("zwaFindStatus"),ri=document.getElementById("roomInput");
+    if(!ri||typeof window.joinRoom!=="function"){if(st)st.textContent="Fitur gabung belum siap, coba refresh.";return;}
+    ri.value=code;
+    if(st)st.textContent="Menggabung ke "+code+"...";
+    window.joinRoom();
+    setTimeout(function(){
+      if(visible()){var s2=document.getElementById("zwaFindStatus");if(s2)s2.textContent="Belum berhasil gabung. Cek apakah nama sudah disimpan di Profil, lalu muat ulang daftar.";load();}
+    },2500);
+  }
+  setInterval(build,500);
+  setInterval(function(){if(visible()&&document.getElementById("zwaFind"))load();},6000);
 })();</script></body>
 </html>

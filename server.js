@@ -351,6 +351,21 @@ io.on("connection", socket => {
     updateRoom(room);
   });
 
+  socket.on("rooms:list", (data = {}, callback = () => {}) => {
+    const q = String(data.q || "").trim().toLowerCase().slice(0, 24);
+    const list = [];
+    for (const room of rooms.values()) {
+      if (room.mode !== "meiquizz" || room.status !== "waiting") continue;
+      const matchType = room.quizSettings?.matchType === "duel" ? "duel" : "mixed";
+      const max = matchType === "duel" ? 2 : MAX_PLAYERS;
+      if (room.players.size >= max) continue;
+      const hostName = room.players.get(room.host)?.name || "Host";
+      if (q && !(room.code.toLowerCase().includes(q) || hostName.toLowerCase().includes(q))) continue;
+      list.push({ code: room.code, host: hostName, players: room.players.size, max, matchType, category: room.quizSettings?.category || "Campuran" });
+    }
+    callback({ ok: true, rooms: list.slice(0, 30) });
+  });
+
   socket.on("join-room", (data = {}, callback = () => {}) => {
     const profile = profiles.get(socket.data.profileToken);
     const code = String(data.code || "").trim().toUpperCase();
