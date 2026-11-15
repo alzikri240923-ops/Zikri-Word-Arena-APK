@@ -6,3 +6,4 @@ diag.py
 *.backup
 public/index.bak*.html
 server.bak.js
+data/players.json
