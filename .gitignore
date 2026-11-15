@@ -7,3 +7,5 @@ diag.py
 public/index.bak*.html
 server.bak.js
 data/players.json
+zikri-word-arena-v2/
+*.zip
