@@ -16,7 +16,7 @@ const GAME_DURATION = 180;
 const MAX_PLAYERS = 10;
 const MIN_PLAYERS = 2;
 const RECONNECT_GRACE_MS = 45000;
-const DATA_DIR = path.join(__dirname, "data");
+const DATA_DIR = process.env.DATA_DIR || process.env.RAILWAY_VOLUME_MOUNT_PATH || path.join(__dirname, "data");
 const PROFILES_FILE = path.join(DATA_DIR, "players.json");
 
 app.use(express.static(path.join(__dirname, "public")));
